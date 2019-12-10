@@ -5,10 +5,7 @@
  * 入口文件中 loadURL 字段表示获取web项目index.html地址
  * 
  */
-// const { BuildMenu } = require('./menu/index')
-const { winTemplate } = require('./menu/winTemplate')
-
-const { app, BrowserWindow, BrowserView, Menu } = require('electron')
+const { app, BrowserWindow, globalShortcut, Menu } = require('electron')
 
 // 保持对window对象的全局引用，如果不这么做的话，当JavaScript对象被
 // 垃圾回收的时候，window对象将会自动的关闭
@@ -30,10 +27,8 @@ function createWindow () {
   Menu.setApplicationMenu(null)
 
   // 加载index.html文件
-  win.loadURL('https://www.tingkelai.com/tingkelai/')
-
-  // 打开开发者工具
-  // win.webContents.openDevTools()
+  // win.loadURL('https://www.tingkelai.com/tingkelai/')
+  win.loadURL('http://127.0.0.1:90/tingkelai/login')
 
   // 当 window 被关闭，这个事件会被触发。
   win.on('closed', () => {
@@ -43,16 +38,6 @@ function createWindow () {
     win = null
   })
 
-  // let view = new BrowserView()
-
-  // win.setBrowserView(view)
-  // view.setBounds({
-  //   x: 100,
-  //   y: 220,
-  //   width: 800,
-  //   height: 400,
-  // })
-  // view.webContents.loadURL('https://electronjs.org')
 }
 
 // Electron 会在初始化后并准备
@@ -60,27 +45,18 @@ function createWindow () {
 // 部分 API 在 ready 事件触发后才能使用。
 app.on('ready', () => {
   createWindow()
+  registerShortcut()
   setTheLock()
+  behindInstanceJavaScript(win.webContents)
 })
 
-function setTheLock() {
-  const gotTheLock = app.requestSingleInstanceLock() // 此方法的返回值表示你的应用程序实例是否成功取得了锁。 return Boolean
-  console.log(gotTheLock)
-  if (!gotTheLock) {
-    // 关闭第二实例
-    app.quit()
-  } else {
-    app.on('second-instance', () => {
-      // 当运行第二个实例时,则打开第一个实例
-      if (win) {
-        win.focus()
-      }
-    })
-  } 
-}
+
 
 // 当全部窗口关闭时退出。
 app.on('window-all-closed', () => {
+    // 注销所有快捷键
+    globalShortcut.unregisterAll()
+
   // 在 macOS 上，除非用户用 Cmd + Q 确定地退出，
   // 否则绝大部分应用及其菜单栏会保持激活。
   if (process.platform !== 'darwin') {
@@ -95,3 +71,52 @@ app.on('activate', () => {
     createWindow()
   }
 })
+
+/** 当运行第二个实例时 */
+function setTheLock() {
+  const gotTheLock = app.requestSingleInstanceLock() // 此方法的返回值表示你的应用程序实例是否成功取得了锁。 return Boolean
+  if (!gotTheLock) {
+    // 关闭第二实例
+    app.quit()
+  } else {
+    app.on('second-instance', () => {
+      // 当运行第二个实例时,则打开第一个实例
+      if (win) {
+        win.focus()
+      }
+    })
+  } 
+}
+
+/** 在实例加载成功后，执行的脚本 */
+function behindInstanceJavaScript(win) {
+  win.executeJavaScript(`
+    console.log(321)
+    const os = require('os')
+    const networkInterfaces = os.networkInterfaces();
+    const list = networkInterfaces.WLAN
+    if (list && list.length > 0) window.localStorage.setItem('mac', list[0].mac)
+
+    fetch('https://api.imjad.cn/cloudmusic/?type=lyric&id=32785674', {
+      method: 'Get',
+    }).then((res) => {
+      console.log(res)
+    })
+    console.log(document.querySelector('#app'));
+  `)
+}
+
+/** 注册快捷键 */
+function registerShortcut() {
+  globalShortcut.register('CommandOrControl+D', () => {
+    // 打开开发者工具
+    win.webContents.openDevTools()
+  })
+
+  if (!globalShortcut.isRegistered('CommandOrControl+D')) {
+    globalShortcut.register('CommandOrControl+P', () => {
+      // 打开开发者工具
+      win.webContents.openDevTools()
+    })
+  }
+}
