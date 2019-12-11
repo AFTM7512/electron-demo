@@ -27,8 +27,8 @@ function createWindow () {
   Menu.setApplicationMenu(null)
 
   // 加载index.html文件
-  // win.loadURL('https://www.tingkelai.com/tingkelai/')
-  win.loadURL('http://127.0.0.1:90/tingkelai/login')
+  win.loadURL('https://www.tingkelai.com/tingkelai/')
+  // win.loadURL('http://127.0.0.1:90/tingkelai/login')
 
   // 当 window 被关闭，这个事件会被触发。
   win.on('closed', () => {
@@ -46,11 +46,9 @@ function createWindow () {
 app.on('ready', () => {
   createWindow()
   registerShortcut()
+  // behindInstanceJavaScript(win.webContents)
   setTheLock()
-  behindInstanceJavaScript(win.webContents)
 })
-
-
 
 // 当全部窗口关闭时退出。
 app.on('window-all-closed', () => {
@@ -95,25 +93,25 @@ function behindInstanceJavaScript(win) {
     const os = require('os')
     const networkInterfaces = os.networkInterfaces();
     const list = networkInterfaces.WLAN
-    if (list && list.length > 0) window.localStorage.setItem('mac', list[0].mac)
+    // if (list && list.length > 0) window.localStorage.setItem('mac', list[0].mac)
 
     fetch('https://api.imjad.cn/cloudmusic/?type=lyric&id=32785674', {
       method: 'Get',
     }).then((res) => {
-      console.log(res)
+      // console.log(res)
     })
-    console.log(document.querySelector('#app'));
+    // console.log(document.querySelector('#app'));
   `)
 }
 
 /** 注册快捷键 */
 function registerShortcut() {
-  globalShortcut.register('CommandOrControl+D', () => {
+  globalShortcut.register('CommandOrControl+I', () => {
     // 打开开发者工具
     win.webContents.openDevTools()
   })
 
-  if (!globalShortcut.isRegistered('CommandOrControl+D')) {
+  if (!globalShortcut.isRegistered('CommandOrControl+I')) {
     globalShortcut.register('CommandOrControl+P', () => {
       // 打开开发者工具
       win.webContents.openDevTools()
