@@ -1,10 +1,4 @@
 
-/** 
- * electron 启动原理：
- * electron . ： 表示在package中寻找main字段，读取其中的入口文件地址
- * 入口文件中 loadURL 字段表示获取web项目index.html地址
- * 
- */
 const { app, BrowserWindow, globalShortcut, Menu } = require('electron')
 
 // 保持对window对象的全局引用，如果不这么做的话，当JavaScript对象被
@@ -27,8 +21,9 @@ function createWindow () {
   Menu.setApplicationMenu(null)
 
   // 加载index.html文件
-  win.loadURL('https://www.tingkelai.com/tingkelai/')
-  // win.loadURL('http://127.0.0.1:90/tingkelai/login')
+  // win.loadURL('https://www.tingkelai.com/tingkelai/')
+  // win.loadURL('https://test.tingkelai.com/tingkelai/login')
+  win.loadURL('http://127.0.0.1:90/tingkelai/login')
 
   // 当 window 被关闭，这个事件会被触发。
   win.on('closed', () => {
@@ -46,7 +41,8 @@ function createWindow () {
 app.on('ready', () => {
   createWindow()
   registerShortcut()
-  // behindInstanceJavaScript(win.webContents)
+  setContextmenu(win.webContents)
+  isDomReady(win.webContents)
   setTheLock()
 })
 
@@ -87,20 +83,14 @@ function setTheLock() {
 }
 
 /** 在实例加载成功后，执行的脚本 */
-function behindInstanceJavaScript(win) {
-  win.executeJavaScript(`
-    console.log(321)
+function behindInstanceJavaScript(contents) {
+  contents.executeJavaScript(`
+    // console.log(document.querySelector('#app'))
     const os = require('os')
     const networkInterfaces = os.networkInterfaces();
     const list = networkInterfaces.WLAN
-    // if (list && list.length > 0) window.localStorage.setItem('mac', list[0].mac)
-
-    fetch('https://api.imjad.cn/cloudmusic/?type=lyric&id=32785674', {
-      method: 'Get',
-    }).then((res) => {
-      // console.log(res)
-    })
-    // console.log(document.querySelector('#app'));
+    // console.log(list[0].mac)
+    if (list && list.length > 0) window.mac = list[0].mac
   `)
 }
 
@@ -117,4 +107,43 @@ function registerShortcut() {
       win.webContents.openDevTools()
     })
   }
+
+}
+
+/**设置右击菜单栏 */
+function setMenuTemplate() {
+  const template = [
+    {
+      label: '复制',
+      role: 'copy',
+    },
+    { type: 'separator' },
+    {
+      label: '粘贴',
+      role: 'paste',
+    },
+    { type: 'separator' },
+    {
+      label: '刷新',
+      role: 'reload',
+    }
+  ]
+
+  return Menu.buildFromTemplate(template)
+}
+
+/** 右击事件 */
+function setContextmenu(contents) {
+  contents.on('context-menu', (e, params) => {
+    e.preventDefault()
+    const menu = setMenuTemplate()
+    menu.popup()
+  })
+}
+
+/** webcontents dom加载完成后调用 */
+function isDomReady(contents) {
+  contents.on('dom-ready', () => {
+    behindInstanceJavaScript(contents)
+  })
 }
