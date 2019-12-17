@@ -15,15 +15,18 @@ function createWindow () {
     icon: 'assets/favicon.icns',
     webPreferences: {
       nodeIntegration: true // 是否集成Node：默认不开启。不开启的话，node有关系的代码无法识别。
-    }
+    },
+    // titleBarStyle: 'hidden',
+    // titleBarStyle: 'hidden',
+    // frame: false
   })
   // new BuildMenu(win)
   Menu.setApplicationMenu(null)
 
   // 加载index.html文件
   // win.loadURL('https://www.tingkelai.com/tingkelai/')
-  // win.loadURL('https://test.tingkelai.com/tingkelai/login')
-  win.loadURL('http://127.0.0.1:90/tingkelai/login')
+  win.loadURL('https://test.tingkelai.com/tingkelai/login')
+  // win.loadURL('http://127.0.0.1:90/tingkelai/login')
 
   // 当 window 被关闭，这个事件会被触发。
   win.on('closed', () => {
