@@ -17,7 +17,7 @@
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "all": "electron-builder -mw",
-    "release": "cross-env GH_TOKEN=45902aae3a4757ba22bc0b4be693278bdb22b886 electron-builder"
+    "release": "electron-builder"
   },
   "build": {
     "productName": "听客来",

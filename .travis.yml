@@ -22,7 +22,8 @@ install:
   - npm i
 
 script:
-  -  npm run release
+  - GH_TOKEN = $GH_TOKEN
+  - npm run release
 
 # before_cache:
 #   - rm -rf $HOME/.cache/electron-builder/wine
