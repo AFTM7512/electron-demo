@@ -22,7 +22,7 @@ install:
   - npm i
 
 script:
-  - GH_TOKEN = $GH_TOKEN
+  - GH_TOKEN = "$GH_TOKEN"
   - npm run release
 
 # before_cache:
