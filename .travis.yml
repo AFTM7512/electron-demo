@@ -24,8 +24,8 @@ install:
 script:
   -  npm run release
 
-before_cache:
-  - rm -rf $HOME/.cache/electron-builder/wine
+# before_cache:
+#   - rm -rf $HOME/.cache/electron-builder/wine
 
 branches:
   except:
