@@ -10,14 +10,10 @@ matrix:
       node_js: "10"
 
 env:
-  - GH_TOKEN=$GH_TOKEN
-  - ELECTRON_CACHE=$HOME/.cache/electron
-  - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
-
-# stages:
-#   - name: deploy
-#     # require the branch name to be master (note for PRs this is the base branch name)
-#     if: branch = master
+  global:
+    - GH_TOKEN=$GH_TOKEN
+    - ELECTRON_CACHE=$HOME/.cache/electron
+    - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
 
 cache:
   directories:
