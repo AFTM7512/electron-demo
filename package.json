@@ -1,6 +1,6 @@
 {
   "name": "tkl-electron",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "听客来",
   "main": "index.js",
   "author": "南京创世德意",
@@ -17,7 +17,7 @@
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "all": "electron-builder -mw",
-    "release": "cross-env GH_TOKEN=50e75ced92d8ebb3f2d8351fc51de4070bce9505 electron-builder"
+    "release": "cross-env GH_TOKEN=45902aae3a4757ba22bc0b4be693278bdb22b886 electron-builder"
   },
   "build": {
     "productName": "听客来",
