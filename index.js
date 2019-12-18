@@ -1,5 +1,6 @@
 
-const { app, BrowserWindow, globalShortcut, Menu } = require('electron')
+const { app, BrowserWindow, globalShortcut, Menu, dialog } = require('electron')
+const { autoUpdater } = require("electron-updater")
 
 // 保持对window对象的全局引用，如果不这么做的话，当JavaScript对象被
 // 垃圾回收的时候，window对象将会自动的关闭
@@ -44,9 +45,10 @@ function createWindow () {
 app.on('ready', () => {
   createWindow()
   registerShortcut()
+  showUpdataDialog(win)
   setContextmenu(win.webContents)
   isDomReady(win.webContents)
-  setTheLock()
+  // setTheLock()
 })
 
 // 当全部窗口关闭时退出。
@@ -73,7 +75,7 @@ app.on('activate', () => {
 function setTheLock() {
   const gotTheLock = app.requestSingleInstanceLock() // 此方法的返回值表示你的应用程序实例是否成功取得了锁。 return Boolean
   if (!gotTheLock) {
-    // 关闭第二实例
+    // 没有取得锁，则关闭应用
     app.quit()
   } else {
     app.on('second-instance', () => {
@@ -149,4 +151,37 @@ function isDomReady(contents) {
   contents.on('dom-ready', () => {
     behindInstanceJavaScript(contents)
   })
+}
+
+/** 显示更新弹框 */
+function showUpdataDialog(win) {
+  autoUpdater.autoDownload = false
+  autoUpdater.checkForUpdatesAndNotify()
+  autoUpdater.on('update-available', () => {
+    dialog.showMessageBox({
+      type: 'warning',
+      title: '是否需要更新！',
+      message: '请更新您的应用，如不更新，则无法使用我们的应用！',
+      buttons: ['关闭', '确定'],
+    }, buttonIndex => {
+      console.log(buttonIndex)
+      
+    })
+
+    dialog.showMessageBox(win, {
+      type: 'warning',
+      title: '是否需要更新！',
+      message: '请更新您的应用，如不更新，则无法使用我们的应用！',
+      buttons: ['关闭', '确定'],
+    }).then((res) => {
+      console.log(res)
+      if (res.response === 1) {
+        autoUpdater.doDownloadUpdate()
+      } else {
+        win.quit()
+      }
+    })
+  })
+  console.log(123)
+  
 }
