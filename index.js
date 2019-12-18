@@ -162,7 +162,6 @@ function showUpdataDialog() {
 
   })
   autoUpdater.on('update-downloaded', () => {
-    autoUpdater.doDownloadUpdate()
     dialog.showMessageBox(win, {
       type: 'warning',
       title: '是否需要更新！',
