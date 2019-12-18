@@ -156,16 +156,31 @@ function isDomReady(contents) {
 /** 显示更新弹框 */
 function showUpdataDialog() {
   autoUpdater.checkForUpdatesAndNotify()
-  autoUpdater.on('update-downloaded', () => {
+  autoUpdater.on('update-available', () => {
     dialog.showMessageBox(win, {
-      type: 'warning',
-      title: '是否需要更新！',
+      type: 'info',
+      title: '有更新',
       message: '请更新您的应用，如不更新，则无法使用我们的应用！',
       buttons: ['关闭', '确定'],
     }).then((res) => {
       console.log(res)
       if (res.response === 1) {
-        autoUpdater.doDownloadUpdate()
+        // autoUpdater.doDownloadUpdate()
+      } else {
+        app.quit()
+      }
+    })
+  })
+  autoUpdater.on('update-downloaded', () => {
+    dialog.showMessageBox(win, {
+      type: 'info',
+      title: '更新完成',
+      message: '请更新您的应用，如不更新，则无法使用我们的应用！',
+      buttons: ['关闭', '确定'],
+    }).then((res) => {
+      console.log(res)
+      if (res.response === 1) {
+        // autoUpdater.doDownloadUpdate()
       } else {
         app.quit()
       }
