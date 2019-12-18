@@ -16,7 +16,6 @@
     "serve": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "all": "electron-builder -mw",
     "release": "electron-builder"
   },
   "build": {
