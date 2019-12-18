@@ -158,7 +158,7 @@ function showUpdataDialog() {
   autoUpdater.autoDownload = false
   autoUpdater.checkForUpdates()
   autoUpdater.on('update-available', () => {
-    autoUpdater.autoDownload = true
+    appUpdater.downloadUpdate()
     dialog.showMessageBox(win, {
       type: 'info',
       title: '有更新',
