@@ -61,6 +61,7 @@
       "installerHeaderIcon": "assets/tkl.ico",
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
+      "perMachine": false,
       "shortcutName": "听客来"
     }
   },
