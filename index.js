@@ -155,8 +155,10 @@ function isDomReady(contents) {
 
 /** 显示更新弹框 */
 function showUpdataDialog() {
+  autoUpdater.autoDownload = false
   autoUpdater.checkForUpdates()
   autoUpdater.on('update-available', () => {
+    autoUpdater.autoDownload = true
     dialog.showMessageBox(win, {
       type: 'info',
       title: '有更新',
@@ -172,14 +174,7 @@ function showUpdataDialog() {
       buttons: ['关闭', '确定'],
     })
   })
-  // autoUpdater.on('download-progress', () => {
-  //   dialog.showMessageBox(win, {
-  //     type: 'info',
-  //     title: '开始更新',
-  //     message: '请更新您的应用，如不更新，则无法使用我们的应用！',
-  //     buttons: ['关闭', '确定'],
-  //   })
-  // })
+
   autoUpdater.on('update-downloaded', () => {
     dialog.showMessageBox(win, {
       type: 'info',
