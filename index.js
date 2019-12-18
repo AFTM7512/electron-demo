@@ -158,16 +158,6 @@ function showUpdataDialog(win) {
   autoUpdater.autoDownload = false
   autoUpdater.checkForUpdatesAndNotify()
   autoUpdater.on('update-available', () => {
-    dialog.showMessageBox({
-      type: 'warning',
-      title: '是否需要更新！',
-      message: '请更新您的应用，如不更新，则无法使用我们的应用！',
-      buttons: ['关闭', '确定'],
-    }, buttonIndex => {
-      console.log(buttonIndex)
-      
-    })
-
     dialog.showMessageBox(win, {
       type: 'warning',
       title: '是否需要更新！',
