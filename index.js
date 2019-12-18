@@ -162,13 +162,22 @@ function showUpdataDialog() {
       title: '有更新',
       message: '请更新您的应用，如不更新，则无法使用我们的应用！',
       buttons: ['关闭', '确定'],
-    }).then((res) => {
-      console.log(res)
-      if (res.response === 1) {
-        // autoUpdater.doDownloadUpdate()
-      } else {
-        app.quit()
-      }
+    })
+  })
+  autoUpdater.on('update-not-available', () => {
+    dialog.showMessageBox(win, {
+      type: 'info',
+      title: '没有更新',
+      message: '请更新您的应用，如不更新，则无法使用我们的应用！',
+      buttons: ['关闭', '确定'],
+    })
+  })
+  autoUpdater.on('download-progress', () => {
+    dialog.showMessageBox(win, {
+      type: 'info',
+      title: '开始更新',
+      message: '请更新您的应用，如不更新，则无法使用我们的应用！',
+      buttons: ['关闭', '确定'],
     })
   })
   autoUpdater.on('update-downloaded', () => {
