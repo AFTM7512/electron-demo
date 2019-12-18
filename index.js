@@ -155,7 +155,7 @@ function isDomReady(contents) {
 
 /** 显示更新弹框 */
 function showUpdataDialog() {
-  autoUpdater.checkForUpdatesAndNotify()
+  autoUpdater.checkForUpdates()
   autoUpdater.on('update-available', () => {
     dialog.showMessageBox(win, {
       type: 'info',
