@@ -155,12 +155,7 @@ function isDomReady(contents) {
 
 /** 显示更新弹框 */
 function showUpdataDialog() {
-  autoUpdater.autoDownload = false
   autoUpdater.checkForUpdatesAndNotify()
-  autoUpdater.on('update-available', () => {
-    autoUpdater.doDownloadUpdate()
-
-  })
   autoUpdater.on('update-downloaded', () => {
     dialog.showMessageBox(win, {
       type: 'warning',
