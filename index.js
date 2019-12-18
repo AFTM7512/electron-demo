@@ -48,7 +48,7 @@ app.on('ready', () => {
   showUpdataDialog(win)
   setContextmenu(win.webContents)
   isDomReady(win.webContents)
-  // setTheLock()
+  setTheLock()
 })
 
 // 当全部窗口关闭时退出。
@@ -154,10 +154,15 @@ function isDomReady(contents) {
 }
 
 /** 显示更新弹框 */
-function showUpdataDialog(win) {
+function showUpdataDialog() {
   autoUpdater.autoDownload = false
   autoUpdater.checkForUpdatesAndNotify()
   autoUpdater.on('update-available', () => {
+    autoUpdater.doDownloadUpdate()
+
+  })
+  autoUpdater.on('update-downloaded', () => {
+    autoUpdater.doDownloadUpdate()
     dialog.showMessageBox(win, {
       type: 'warning',
       title: '是否需要更新！',
@@ -168,10 +173,8 @@ function showUpdataDialog(win) {
       if (res.response === 1) {
         autoUpdater.doDownloadUpdate()
       } else {
-        win.quit()
+        app.quit()
       }
     })
   })
-  console.log(123)
-  
 }
