@@ -155,10 +155,9 @@ function isDomReady(contents) {
 
 /** 显示更新弹框 */
 function showUpdataDialog() {
-  autoUpdater.autoDownload = false
+  // test
   autoUpdater.checkForUpdates()
   autoUpdater.on('update-available', () => {
-    appUpdater.downloadUpdate()
     dialog.showMessageBox(win, {
       type: 'info',
       title: '有更新',
