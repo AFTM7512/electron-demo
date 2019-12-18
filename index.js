@@ -182,14 +182,14 @@ function showUpdataDialog() {
   })
   autoUpdater.on('update-downloaded', () => {
     dialog.showMessageBox(win, {
-      type: 'info',
+      type: 'warning',
       title: '更新完成',
       message: '请更新您的应用，如不更新，则无法使用我们的应用！',
       buttons: ['关闭', '确定'],
     }).then((res) => {
       console.log(res)
       if (res.response === 1) {
-        // autoUpdater.doDownloadUpdate()
+        autoUpdater.quitAndInstall()
       } else {
         app.quit()
       }

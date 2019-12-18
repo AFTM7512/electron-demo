@@ -53,16 +53,15 @@
       "icon": "assets/tkl.ico"
     },
     "nsis": {
-      "oneClick": false,
-      "allowElevation": true,
-      "allowToChangeInstallationDirectory": true,
       "installerIcon": "assets/tkl.ico",
       "uninstallerIcon": "assets/tkl.ico",
       "installerHeaderIcon": "assets/tkl.ico",
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "perMachine": true,
-      "shortcutName": "听客来"
+      "shortcutName": "听客来",
+      "allowToChangeInstallationDirectory": true,
+      "oneClick": false,
+      "perMachine": false
     }
   },
   "publish": [
